@@ -18,8 +18,11 @@ export async function getTickets(req: AuthenticatedRequest, res: Response) {
 
 export async function getUserTickets(req: AuthenticatedRequest, res: Response) {
 
-    try {
+    const { userId } = req;
 
+    try {
+        const userTickets = await ticketsService.getUserTickets(userId)
+        return res.status(httpStatus.OK).send(userTickets)
     } catch (err) {
         if (err.name === "NotFoundError") {
             return res.sendStatus(httpStatus.NOT_FOUND)
